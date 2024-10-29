@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Lunar Institute</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .registration-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+        }
+        .registration-header {
+            color: #263c4a;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        .btn-register {
+            background-color: #263c4a;
+            border-color: #263c4a;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+        .btn-register:hover {
+            background-color: #37b16d;
+            border-color: #37b16d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="registration-container">
+                    <h2 class="registration-header">
+                        <i class="fas fa-user-plus me-2"></i>Student Registration
+                    </h2>
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label for="{{ student_form.name.id_for_label }}" class="form-label">
+                                <i class="fas fa-id-card me-2"></i>Full Name
+                            </label>
+                            <input type="text" name="{{ student_form.name.name }}" class="form-control" id="{{ student_form.name.id_for_label }}" required>
+                            {% for error in student_form.name.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Username and Phone in the same row -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Username
+                                </label>
+                                <input type="text" name="{{ form.username.name }}" class="form-control" id="{{ form.username.id_for_label }}" required>
+                                {% for error in form.username.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <label for="{{ student_form.phone.id_for_label }}" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Phone
+                                </label>
+                                <input type="tel" name="{{ student_form.phone.name }}" class="form-control" id="{{ student_form.phone.id_for_label }}" required>
+                                {% for error in student_form.phone.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+                            <label for="{{ student_form.address.id_for_label }}" class="form-label">
+                                <i class="fas fa-map-marker-alt me-2"></i>Address
+                            </label>
+                            <textarea name="{{ student_form.address.name }}" class="form-control" id="{{ student_form.address.id_for_label }}" rows="3" required></textarea>
+                            {% for error in student_form.address.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </label>
+                            <input type="email" name="{{ form.email.name }}" class="form-control" id="{{ form.email.id_for_label }}" required>
+                            {% for error in form.email.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password and Confirm Password in the same row -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Password
+                                </label>
+                                <input type="password" name="{{ form.password1.name }}" class="form-control" id="{{ form.password1.id_for_label }}" required>
+                                {% for error in form.password1.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Confirm Password
+                                </label>
+                                <input type="password" name="{{ form.password2.name }}" class="form-control" id="{{ form.password2.id_for_label }}" required>
+                                {% for error in form.password2.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-register btn-success w-100 mt-4">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">Already have an account? <a href="{% url 'login' %}" class="text-primary">Log in</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

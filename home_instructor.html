@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Instructor Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-content text-center">
+        <h1 class="hero-title">Welcome to Lunar Institute</h1>
+        <p class="hero-subtitle">Empowering minds, shaping futures. Explore our wide range of courses and start your learning journey today.</p>
+        <a href="#courses" class="btn btn-hero btn-primary">Explore Courses</a>
+    </div>
+</section>
+<div class="container my-5">
+    
+    <h1 class="text-center my-5 fw-bold text-dark">Available Courses</h1>
+    
+
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        
+        {% for course in courses %}
+            <div class="col">
+                <div class="card border-light shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-secondary">{{ course.name }}</h2>
+                        <p class="text-muted small">{{ course.description|slice:":150" }}...</p>
+                        <div class="d-flex justify-content-between my-2">
+                            <span><strong>Duration:</strong> {{ course.duration }} days</span>
+                            <span><strong>Fee:</strong> ${{ course.fee }}</span>
+                        </div>
+                        <a href="/course_detail/{{ course.id }}/" class="btn btn-primary w-100">Learn More</a>
+                        {% if user.is_authenticated %}
+                            <a href="/enroll_course/{{ course.id }}/" class="btn btn-success mt-2 w-100">Enroll Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p class="text-center fs-6 text-muted">No courses available.</p>
+            </div>
+        {% endfor %}
+
+
+        {% if user.instructor.post %}
+        <div class="col d-flex justify-content-center">
+            <div class="card border-light shadow-sm h-100 d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
+                <div class="card-body d-flex align-items-center justify-content-center p-0">
+                    <a href="/add_course/" class="btn btn-outline-primary btn-lg"> + Add New Course</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url('https://source.unsplash.com/random/1600x900/?education');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        padding: 150px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(52, 152, 219, 0.3) 0%, rgba(52, 73, 94, 0.3) 100%);
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .btn-hero {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    .btn-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Lunar Institute Instructor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .registration-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+        }
+        .registration-header {
+            color: #263c4a;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        .btn-register {
+            background-color: #263c4a;
+            border-color: #263c4a;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+        .btn-register:hover {
+            background-color: #37b16d;
+            border-color: #37b16d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="registration-container">
+                    <h2 class="registration-header">
+                        <i class="fas fa-user-plus me-2"></i>Register as Instructor
+                    </h2>
+                    <form method="POST" action="{% url 'Institute_app:register_instructor' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ instructor_form.name.id_for_label }}" class="form-label">
+                                <i class="fas fa-id-card me-2"></i>Full Name
+                            </label>
+                            <input type="text" name="{{ instructor_form.name.name }}" class="form-control" id="{{ instructor_form.name.id_for_label }}" required>
+                            {% for error in instructor_form.name.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="{{ user_form.username.id_for_label }}" class="form-label">Username</label>
+                                <input type="text" name="{{ user_form.username.name }}" class="form-control" id="{{ user_form.username.id_for_label }}" required>
+                                {% for error in user_form.username.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <label for="{{ instructor_form.phone.id_for_label }}" class="form-label">Phone</label>
+                                <input type="tel" name="{{ instructor_form.phone.name }}" class="form-control" id="{{ instructor_form.phone.id_for_label }}" required>
+                                {% for error in instructor_form.phone.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ instructor_form.address.id_for_label }}" class="form-label">
+                                <i class="fas fa-map-marker-alt me-2"></i>Address
+                            </label>
+                            <textarea name="{{ instructor_form.address.name }}" class="form-control" id="{{ instructor_form.address.id_for_label }}" rows="3" required></textarea>
+                            {% for error in instructor_form.address.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="{{ instructor_form.expertise_field.id_for_label }}" class="form-label">
+                                    <i class="fas fa-briefcase me-2"></i>Expertise Field
+                                </label>
+                                <input type="text" name="{{ instructor_form.expertise_field.name }}" class="form-control" id="{{ instructor_form.expertise_field.id_for_label }}" required>
+                                {% for error in instructor_form.expertise_field.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <label for="{{ instructor_form.post.id_for_label }}" class="form-label">
+                                    Post
+                                </label>
+                                <input type="text" name="{{ instructor_form.post.name }}" class="form-control" id="{{ instructor_form.post.id_for_label }}" required>
+                                {% for error in instructor_form.post.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="mb-3">
+                            <label for="{{ user_form.email.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </label>
+                            <input type="email" name="{{ user_form.email.name }}" class="form-control" id="{{ user_form.email.id_for_label }}" required>
+                            {% for error in user_form.email.errors %}
+                                <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="{{ user_form.password1.id_for_label }}" class="form-label">Password</label>
+                                <input type="password" name="{{ user_form.password1.name }}" class="form-control" id="{{ user_form.password1.id_for_label }}" required>
+                                {% for error in user_form.password1.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <label for="{{ user_form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                                <input type="password" name="{{ user_form.password2.name }}" class="form-control" id="{{ user_form.password2.id_for_label }}" required>
+                                {% for error in user_form.password2.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-register btn-success w-100 mt-4">
+                            <i class="fas fa-user-plus me-2"></i>Register as Instructor
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">Already have an account? <a href="{% url 'login' %}" class="text-primary">Log in</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

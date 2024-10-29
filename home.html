@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Available Courses{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-content text-center">
+        <h1 class="hero-title">Welcome to Lunar Institute</h1>
+        <p class="hero-subtitle">Empowering minds, shaping futures. Explore our wide range of courses and start your learning journey today.</p>
+        <a href="#courses" class="btn btn-hero btn-primary">Explore Courses</a>
+    </div>
+</section>
+ 
+<h1 class="text-center my-5 fw-bold text-dark" style="display: block !important;">Available Courses</h1>
+
+<div class="container py-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for course in courses %}
+            <div class="col">
+                <div class="card h-100 shadow-sm hover-lift">
+                    <div class="card-body d-flex flex-column">
+                        <h2 class="card-title h4 mb-3 text-primary">{{ course.name }}</h2>
+                        <p class="card-text flex-grow-1">{{ course.description|slice:":150" }}...</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-clock me-1"></i> {{ course.duration }} days
+                            </span>
+                            <span class="badge bg-success">
+                                <i class="fas fa-tag me-1"></i> ${{ course.fee }}
+                            </span>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/course_detail/{{ course.id }}/" class="btn btn-outline-primary w-100 mb-2">Learn More</a>
+                            {% if user.is_authenticated %}
+                                <a href="/enroll_course/{{ course.id }}/" class="btn btn-primary w-100">Enroll Now</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">
+                    <i class="fas fa-info-circle me-2"></i> No courses available at the moment. Please check back later!
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url('https://source.unsplash.com/random/1600x900/?education');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        padding: 150px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(52, 152, 219, 0.3) 0%, rgba(52, 73, 94, 0.3) 100%);
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .btn-hero {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    .btn-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+    .badge {
+        font-size: 0.8rem;
+    }
+</style>
+{% endblock %}

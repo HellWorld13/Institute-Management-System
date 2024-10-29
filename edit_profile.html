@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .profile-container {
+            background-color: #ffffff;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .profile-photo {
+            border: 3px solid #007bff;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .change-photo-btn {
+            position: absolute;
+            top: 26%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .change-photo-btn:hover {
+            opacity: 1;
+        }
+
+        .btn-save {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #0056b3;
+        }
+
+        .profile-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-container text-center p-4 border rounded shadow-lg bg-light">
+                {% if student.photo %}
+                    <img id="profileImage" src="{{ student.photo.url }}" alt="{{ student.name }}" class="profile-photo mb-4 rounded-circle" style="width: 150px; height: 150px;">
+                {% else %}
+                    <img id="profileImage" src="/static/std.jpg" alt="Default Profile" class="profile-photo mb-4 rounded-circle" style="width: 150px; height: 150px;">
+                {% endif %}
+                
+                <input type="file" id="file-input" name="photo" accept="image/*">
+                <div class="change-photo-btn" id="changePhotoBtn">
+                    Change Photo
+                </div>
+
+                <h2 class="font-weight-bold">Edit Profile</h2>
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ student.name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ student.user.email }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">username:</label>
+                    <input type="username" id="username" name="username" class="form-control" value="{{ student.user.username }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" class="form-control" value="{{ student.phone }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" class="form-control" required>{{ student.address }}</textarea>
+                </div>
+
+                <div class="profile-buttons">
+                    <button type="submit" class="btn btn-save">Save Changes</button>
+                    <a href="{% url 'Institute_app:student_profile' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        document.getElementById('changePhotoBtn').addEventListener('click', function() {
+            document.getElementById('file-input').click();
+        });
+
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new File
